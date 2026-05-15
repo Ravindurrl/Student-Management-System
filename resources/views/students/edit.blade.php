@@ -1,17 +1,172 @@
 <!DOCTYPE html>
-<html>
-<head><title>Edit Student</title></head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Student</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: sans-serif; background: #f3f4f6; color: #111; }
+
+  .navbar {
+    background: #1e40af;
+    color: #fff;
+    padding: 14px 32px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .container {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 14px;
+    color: #64748b;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+  .back:hover { color: #1e40af; }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    padding: 32px;
+  }
+
+  .card h2 { font-size: 20px; margin-bottom: 24px; color: #1e293b; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .form-group { margin-bottom: 16px; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+
+  .req { color: #ef4444; }
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  input:focus { border-color: #1e40af; }
+  input.err { border-color: #ef4444; }
+
+  .error { font-size: 12px; color: #ef4444; margin-top: 4px; }
+
+  hr { border: none; border-top: 1px solid #f1f5f9; margin: 20px 0; }
+
+  .actions { display: flex; gap: 10px; }
+
+  .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .btn-blue { flex: 1; background: #1e40af; color: #fff; }
+  .btn-blue:hover { background: #1e3a8a; }
+
+  .btn-outline {
+    background: #fff;
+    color: #374151;
+    border: 1.5px solid #e2e8f0;
+  }
+  .btn-outline:hover { background: #f9fafb; }
+</style>
+</head>
+
 <body>
-<h1>Edit Student</h1>
-<form action="{{ route('students.update', $student->id) }}" method="POST">
-    @csrf @method('PUT')
-    <input type="text" name="first_name" value="{{ $student->first_name }}"><br>
-    <input type="text" name="last_name" value="{{ $student->last_name }}"><br>
-    <input type="email" name="email" value="{{ $student->email }}"><br>
-    <input type="text" name="phone" value="{{ $student->phone }}"><br>
-    <input type="text" name="course" value="{{ $student->course }}"><br>
-    <button type="submit">Update</button>
-</form>
-<a href="{{ route('students.index') }}">Back</a>
+
+<div class="navbar">Student Management System</div>
+
+<div class="container">
+
+  <a href="{{ route('students.index') }}" class="back">← Back to list</a>
+
+  <div class="card">
+    <h2>Edit Student</h2>
+
+    <form action="{{ route('students.update', $student->id) }}" method="POST">
+      @csrf
+      @method('PUT')
+
+      <div class="row">
+        <div class="form-group">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" name="first_name"
+                 value="{{ old('first_name', $student->first_name) }}"
+                 class="{{ $errors->has('first_name') ? 'err' : '' }}">
+          @error('first_name') <div class="error">{{ $message }}</div> @enderror
+        </div>
+
+        <div class="form-group">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" name="last_name"
+                 value="{{ old('last_name', $student->last_name) }}"
+                 class="{{ $errors->has('last_name') ? 'err' : '' }}">
+          @error('last_name') <div class="error">{{ $message }}</div> @enderror
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" name="email"
+               value="{{ old('email', $student->email) }}"
+               class="{{ $errors->has('email') ? 'err' : '' }}">
+        @error('email') <div class="error">{{ $message }}</div> @enderror
+      </div>
+
+      <div class="form-group">
+        <label>Phone <span class="req">*</span></label>
+        <input type="text" name="phone"
+               value="{{ old('phone', $student->phone) }}"
+               maxlength="10"
+               class="{{ $errors->has('phone') ? 'err' : '' }}">
+        @error('phone') <div class="error">{{ $message }}</div> @enderror
+      </div>
+
+      <div class="form-group">
+        <label>Course <span class="req">*</span></label>
+        <input type="text" name="course"
+               value="{{ old('course', $student->course) }}"
+               class="{{ $errors->has('course') ? 'err' : '' }}">
+        @error('course') <div class="error">{{ $message }}</div> @enderror
+      </div>
+
+      <hr>
+
+      <div class="actions">
+        <a href="{{ route('students.index') }}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-blue">Update Student</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
 </body>
 </html>
