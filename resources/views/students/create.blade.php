@@ -102,7 +102,7 @@
     <form action="{{ route('students.store') }}" method="POST">
       @csrf
       
-// Student Creation form and the validations
+<!-- Student Creation Form with Validation Error Handling -->
       <div class="row">
         <div class="form-group">
           <label>First Name <span class="req">*</span></label>
