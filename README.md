@@ -1,4 +1,4 @@
-# Student-Management-System 
+# Student-Management-System 🏫🎓
 
 A simple and professional Student Management System developed using Laravel and MySQL.  
 This project provides complete CRUD (Create, Read, Update, Delete) functionality with validation, resource routing, Eloquent ORM integration, and a responsive Blade-based user interface for efficiently managing student records.
