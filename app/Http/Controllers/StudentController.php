@@ -7,12 +7,19 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    // Show all students
-    public function index()
-    {
-        $students = Student::all();
-        return view('students.index', compact('students'));
-    }
+    // Show all students by serchrching and pagination
+     public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $students = Student::when($search, function ($query, $search) {
+        $query->where('first_name', 'like', "%{$search}%")
+              ->orWhere('last_name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+    })->simplePaginate(10);
+
+    return view('students.index', compact('students', 'search'));
+}
 
     // Show the create form
     public function create()
@@ -37,11 +44,8 @@ class StudentController extends Controller
                          ->with('success', 'Student added successfully!');
     }
 
-    // Show one student (optional for this assignment)
-    public function show(string $id)
-    {
-        //
-    }
+   
+
 
     // Show the edit form
     public function edit(string $id)
@@ -77,4 +81,6 @@ class StudentController extends Controller
         return redirect()->route('students.index')
                          ->with('success', 'Student deleted successfully!');
     }
+
+
 }
