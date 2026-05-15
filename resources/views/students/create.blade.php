@@ -139,7 +139,7 @@
   @error('phone')
     <div class="error">{{ $message }}</div>
   @else
-    <div class="hint">Must be 10 digits and start with 07</div>
+    <div class="hint">Must be 10 digits </div>
   @enderror
 </div>
 
